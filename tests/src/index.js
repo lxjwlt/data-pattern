@@ -1,13 +1,51 @@
 'use strict';
 
 const assert = require('chai').assert;
-const indexMod = require('../../src/index');
+const dataFormat = require('../../src/index');
 
 describe('index.js', () => {
 
-    it('utils strictEqual', () => {
+    it('empty format', () => {
 
-        assert.strictEqual(indexMod, indexMod);
+        let ori = {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: null
+        };
+
+        let data = dataFormat(ori);
+
+        assert.deepEqual(data, ori);
+    });
+
+    it('object format', () => {
+
+        let data = dataFormat({
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: null
+        }, {
+            privacy: {},
+            detail: {}
+        });
+
+        assert.deepEqual(data, {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: {}
+        });
 
     });
 
