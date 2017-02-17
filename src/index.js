@@ -7,7 +7,7 @@ function dataFormat (data, format) {
     }
 
     if (Array.isArray(data)) {
-        return data.map((item, i) => dataFormat(item, format));
+        return data.map((item, i) => dataFormat(item, format[0]));
     }
 
     if (typeof data === 'object' && data) {
@@ -22,26 +22,34 @@ function dataFormat (data, format) {
 
     }
 
-    return isEmpty(data) ? thinValue(format, data) : data;
+    return isEmpty(data) ? formatToData(format, data) : data;
 }
 
 function isEmpty (data) {
     return !data && data !== 0 && data !== false;
 }
 
-function thinValue (data, value) {
+function formatToData (format, currentData) {
 
-    if (Array.isArray(data)) {
+    if (Array.isArray(format)) {
         return [];
     }
 
-    if (typeof data === 'object' && data) {
-        return {};
+    if (typeof format === 'function') {
+        return format(currentData);
     }
 
-    if (typeof data === 'function') {
-        return data(value);
+    if (typeof format === 'object' && format) {
+        let obj = {};
+
+        for (let prop of Object.keys(format)) {
+            obj[prop] = formatToData(format[prop], (currentData || {})[prop]);
+        }
+
+        return obj;
     }
+
+    return currentData;
 }
 
 module.exports = dataFormat;

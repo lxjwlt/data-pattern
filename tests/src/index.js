@@ -6,6 +6,49 @@ const dataFormat = require('../../src/index');
 describe('index.js', () => {
 
     it('empty format', () => {
+        let ori = {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: null
+        };
+
+        equalAndNotModify(ori, undefined, {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: null
+        });
+    });
+
+    it('null data in object format', () => {
+        let data = dataFormat(null, {
+            privacy: {},
+            detail: {}
+        });
+
+        assert.deepEqual(data, {
+            privacy: {},
+            detail: {}
+        });
+    });
+
+    it('null data in array format', () => {
+        let data = dataFormat(null, [{
+            privacy: {},
+            detail: {}
+        }]);
+
+        assert.deepEqual(data, []);
+    });
+
+    it('object format', () => {
 
         let ori = {
             name: null,
@@ -17,14 +60,30 @@ describe('index.js', () => {
             detail: null
         };
 
-        let data = dataFormat(ori);
+        let format = {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: {}
+        };
 
-        assert.deepEqual(data, ori);
+        equalAndNotModify(ori, format, {
+            name: null,
+            age: 12,
+            privacy: {
+                location: 'china',
+                occupation: 'front-end'
+            },
+            detail: {}
+        });
+
     });
 
-    it('object format', () => {
-
-        let data = dataFormat({
+    it('array format', () => {
+        let ori = [{
             name: null,
             age: 12,
             privacy: {
@@ -32,12 +91,14 @@ describe('index.js', () => {
                 occupation: 'front-end'
             },
             detail: null
-        }, {
+        }];
+
+        let format = [{
             privacy: {},
             detail: {}
-        });
+        }];
 
-        assert.deepEqual(data, {
+        equalAndNotModify(ori, format, [{
             name: null,
             age: 12,
             privacy: {
@@ -45,8 +106,33 @@ describe('index.js', () => {
                 occupation: 'front-end'
             },
             detail: {}
-        });
+        }]);
+    });
 
+    it('empty item in array', () => {
+        let ori = [null, {
+            detail: null
+        }];
+
+        let format = [{
+            detail: {}
+        }];
+
+        equalAndNotModify(ori, format, [{
+            detail: {}
+        }, {
+            detail: {}
+        }]);
     });
 
 });
+
+function equalAndNotModify (data, format, expect) {
+    let clone = JSON.parse(JSON.stringify(data));
+
+    let result = dataFormat(data, format);
+
+    assert.deepEqual(result, expect);
+
+    assert.deepEqual(data, clone);
+}
