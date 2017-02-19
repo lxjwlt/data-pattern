@@ -281,6 +281,46 @@ describe('index.js', () => {
         }]);
     });
 
+    it('format function for elements of array', () => {
+        let ori = [{
+            level: 2
+        }, {
+            level: 1
+        }, {
+            level: 3
+        }];
+
+        let format = [(item) => {
+            return {
+                level: item.level - 1
+            };
+        }];
+
+        equalAndNotModify(ori, format, [{
+            level: 1
+        }, {
+            level: 0
+        }, {
+            level: 2
+        }])
+    });
+
+    it('format function inner object', () => {
+        let ori = {
+            level: 1
+        };
+
+        let format = {
+            level: (level) => {
+                return level * 10;
+            }
+        };
+
+        equalAndNotModify(ori, format, {
+            level: 10
+        });
+    });
+
 });
 
 function equalAndNotModify (data, format, expect) {
