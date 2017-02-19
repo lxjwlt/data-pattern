@@ -239,6 +239,48 @@ describe('index.js', () => {
         });
     });
 
+    it('empty data when format is function', () => {
+        let ori = null;
+
+        let format = (data) => {
+            assert.deepEqual(ori, data);
+
+            return {
+                level: 1
+            };
+        };
+
+        equalAndNotModify(ori, format, {
+            level: 1
+        });
+    });
+
+    it('format function with array', () => {
+        let ori = [{
+            level: 2
+        }, {
+            level: 1
+        }, {
+            level: 3
+        }];
+
+        let format = (arr) => {
+            assert.deepEqual(ori, arr);
+
+            return arr.sort((a, b) => a.level - b.level);
+        };
+
+        let data = dataFormat(ori, format);
+
+        assert.deepEqual(data, [{
+            level: 1
+        }, {
+            level: 2
+        }, {
+            level: 3
+        }]);
+    });
+
 });
 
 function equalAndNotModify (data, format, expect) {
