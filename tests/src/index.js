@@ -125,6 +125,32 @@ describe('index.js', () => {
         }]);
     });
 
+    it('empty property in object', () => {
+        let ori = {
+            obj2: null
+        };
+
+        let format = {
+            arr: [{}],
+            obj: {
+                obj: {}
+            },
+            obj2: {
+                obj2: {}
+            }
+        };
+
+        equalAndNotModify(ori, format, {
+            arr: [],
+            obj: {
+                obj: {}
+            },
+            obj2: {
+                obj2: {}
+            }
+        });
+    });
+
     it('array in array', () => {
         let ori = [[], null, [[]]];
 
