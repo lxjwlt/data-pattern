@@ -210,8 +210,6 @@ describe('index.js', () => {
             }]
         }];
 
-        debugger;
-
         equalAndNotModify(ori, format, [{
             level: 1,
             children: [{
