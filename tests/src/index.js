@@ -125,6 +125,46 @@ describe('index.js', () => {
         }]);
     });
 
+    it('array in array', () => {
+        let ori = [[], null, [[]]];
+
+        let format = [[[]]];
+
+        equalAndNotModify(ori, format, [[], [], [[]]]);
+    });
+
+    it('object in object', () => {
+        let ori = {
+            level: 1,
+            children: {
+                level: 2,
+                children: null
+            }
+        };
+
+        let format = {
+            children: {
+                children: {
+                    children: {
+                        children: {}
+                    }
+                }
+            }
+        };
+
+        equalAndNotModify(ori, format, {
+            level: 1,
+            children: {
+                level: 2,
+                children: {
+                    children: {
+                        children: {}
+                    }
+                }
+            }
+        });
+    });
+
 });
 
 function equalAndNotModify (data, format, expect) {
