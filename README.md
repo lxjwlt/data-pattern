@@ -2,7 +2,20 @@
 
 ![Node version][node-image] [![NPM version][npm-image]][npm-url]
 
-Format data into the specific pattern which we wanted.
+Format data in the specific pattern we wanted.
+
+## why should we use?
+
+The data we fetch from the server may not be what we expected. We need a simple way to unify the data format.
+
+```javascript
+const dataPattern = require('data-pattern');
+
+ajax.get('/persons')
+    .then((data) => {
+        return dataPattern(data, []);
+    });
+```
 
 ## Install
 
@@ -12,15 +25,65 @@ npm install data-pattern
 
 ## Usage
 
+Expect data to be array:
+
+```javascript
+dataPattern(data, []);
+```
+
+Expect data to be object:
+
+```javascript
+dataPattern(data, {});
+```
+
+Format every item of array:
+
+```javascript
+dataPattern(data, [{
+    children: []
+}]);
+dataPattern(data, [[]]);
+```
+
+Format value of object:
+
+```javascript
+dataPattern(data, {
+    info: {},
+    children: []
+});
+```
+
+Pattern can be a function which accepts current data as first arguments:
+
+```javascript
+dataPattern(data, (item) => {
+    return item.sort((a, b) => b.item - a.item);
+});
+```
+
+Format function for array items:
+
+```javascript
+dataPattern(data, [(item) => {
+    return {
+        level: item.level - 1
+    };
+}]);
+```
+
+Quick example:
+
 ```javascript
 const dataPattern = require('data-pattern');
 
 let data = {
     children: [null, {}],
-
     map: {
-        level: 0
-    }
+        shouldBeKeep: 0
+    },
+    timestamp: 1487504955 // in seconds
 };
 
 let pattern = {
@@ -29,6 +92,9 @@ let pattern = {
     }],
     map: {
         arr: []
+    },
+    timestamp: (timestamp) => {
+        return timestamp * 1000; // in microseconds
     }
 };
 
@@ -45,9 +111,10 @@ dataPattern(data, pattern);
         }
     ],
     map: {
-        level: 0,
+        shouldBeKeep: 0,
         arr: []
-    }
+    },
+    timestamp: 1487504955000
 }
 */
 ```
