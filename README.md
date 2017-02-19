@@ -73,7 +73,31 @@ dataPattern(data, [(item) => {
 }]);
 ```
 
-Quick example:
+Below is equal:
+
+```javascript
+dataPattern(data, {
+    children: [{
+        info: {}
+    }]
+});
+
+// is equal to
+
+dataPattern(data, {
+    children: (children) => {
+        if (!children) {
+            return []
+        }
+
+        return children.map((item) => dataPattern(item, {
+            info: {}
+        }));
+    }
+});
+```
+
+A quick example:
 
 ```javascript
 const dataPattern = require('data-pattern');
