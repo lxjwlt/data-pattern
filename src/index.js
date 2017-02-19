@@ -18,6 +18,12 @@ function dataFormat (data, format) {
             obj[prop] = dataFormat(data[prop], format[prop]);
         }
 
+        for (let prop of Object.keys(format)) {
+            if (!data.hasOwnProperty(prop)) {
+                obj[prop] = dataFormat(data[prop], format[prop]);
+            }
+        }
+
         return obj;
 
     }
