@@ -6,11 +6,11 @@ function dataFormat (data, format) {
         return data;
     }
 
-    if (Array.isArray(data)) {
+    if (Array.isArray(data) && Array.isArray(format)) {
         return data.map((item, i) => dataFormat(item, format[0]));
     }
 
-    if (typeof data === 'object' && data) {
+    if (isObject(data) && isObject(format)) {
 
         let obj = {};
 
@@ -28,21 +28,29 @@ function dataFormat (data, format) {
 
     }
 
-    return isEmpty(data) ? formatToData(format, data) : data;
+    return formatToData(format, data);
 }
 
 function isEmpty (data) {
     return !data && data !== 0 && data !== false;
 }
 
-function formatToData (format, currentData) {
+function isObject (data) {
+    return typeof data === 'object' && data;
+}
 
-    if (Array.isArray(format)) {
-        return [];
-    }
+function formatToData (format, currentData) {
 
     if (typeof format === 'function') {
         return format(currentData);
+    }
+
+    if (!isEmpty(currentData)) {
+        return currentData;
+    }
+
+    if (Array.isArray(format)) {
+        return [];
     }
 
     if (typeof format === 'object' && format) {

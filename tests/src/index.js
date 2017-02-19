@@ -223,6 +223,22 @@ describe('index.js', () => {
         }]);
     });
 
+    it('format is a function', () => {
+        let ori = {};
+
+        let format = (data) => {
+            assert.deepEqual(ori, data);
+
+            return {
+                level: 1
+            };
+        };
+
+        equalAndNotModify(ori, format, {
+            level: 1
+        });
+    });
+
 });
 
 function equalAndNotModify (data, format, expect) {
