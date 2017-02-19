@@ -27,25 +27,29 @@ describe('index.js', () => {
         });
     });
 
-    it('null data in object format', () => {
-        let data = dataFormat(null, {
-            privacy: {},
-            detail: {}
-        });
+    it('empty data to object', () => {
+        for (let value of [null, undefined]) {
+            let data = dataFormat(value, {
+                privacy: {},
+                detail: {}
+            });
 
-        assert.deepEqual(data, {
-            privacy: {},
-            detail: {}
-        });
+            assert.deepEqual(data, {
+                privacy: {},
+                detail: {}
+            });
+        }
     });
 
-    it('null data in array format', () => {
-        let data = dataFormat(null, [{
-            privacy: {},
-            detail: {}
-        }]);
+    it('empty data to array', () => {
+        for (let value of [null, undefined]) {
+            let data = dataFormat(value, [{
+                privacy: {},
+                detail: {}
+            }]);
 
-        assert.deepEqual(data, []);
+            assert.deepEqual(data, []);
+        }
     });
 
     it('object format', () => {
