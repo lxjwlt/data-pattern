@@ -14,14 +14,19 @@ function dataFormat (data, format, strict) {
 
         let obj = {};
 
-        if (!strict) {
-            for (let prop of Object.keys(data)) {
+        for (let prop of Object.keys(data)) {
+            if (strict && format.hasOwnProperty(prop) || !strict) {
                 obj[prop] = dataFormat(data[prop], format[prop], strict);
             }
         }
 
         for (let prop of Object.keys(format)) {
-            if (!data.hasOwnProperty(prop) || strict) {
+
+            if (strict && format[prop] === true && !data.hasOwnProperty(prop)) {
+                continue;
+            }
+
+            if (!data.hasOwnProperty(prop)) {
                 obj[prop] = dataFormat(data[prop], format[prop], strict);
             }
         }
@@ -30,7 +35,7 @@ function dataFormat (data, format, strict) {
 
     }
 
-    return formatToData(format, data);
+    return formatToData(format, data, strict);
 }
 
 function isEmpty (data) {
@@ -41,7 +46,7 @@ function isObject (data) {
     return typeof data === 'object' && data;
 }
 
-function formatToData (format, currentData) {
+function formatToData (format, currentData, strict) {
 
     if (typeof format === 'function') {
         return format(currentData);
@@ -59,7 +64,10 @@ function formatToData (format, currentData) {
         let obj = {};
 
         for (let prop of Object.keys(format)) {
-            obj[prop] = formatToData(format[prop], (currentData || {})[prop]);
+            if (strict && format[prop] === true) {
+                continue;
+            }
+            obj[prop] = formatToData(format[prop], (currentData || {})[prop], strict);
         }
 
         return obj;

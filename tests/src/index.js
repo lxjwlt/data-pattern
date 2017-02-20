@@ -324,23 +324,28 @@ describe('index.js', () => {
     it('strict format', () => {
         let ori = [{
             level: 1,
+            shouldBeKeep: 'id1',
             children: [{}]
         }, {
             level: 1,
+            shouldBeKeep: null,
             children: null
         }, null];
 
         let format = [{
+            shouldBeKeep: true,
             children: [{
                 children: [{}]
             }]
         }];
 
         equalAndNotModify(ori, format, [{
+            shouldBeKeep: 'id1',
             children: [{
                 children: []
             }]
         }, {
+            shouldBeKeep: null,
             children: []
         }, {
             children: []
