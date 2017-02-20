@@ -321,12 +321,39 @@ describe('index.js', () => {
         });
     });
 
+    it('strict format', () => {
+        let ori = [{
+            level: 1,
+            children: [{}]
+        }, {
+            level: 1,
+            children: null
+        }, null];
+
+        let format = [{
+            children: [{
+                children: [{}]
+            }]
+        }];
+
+        equalAndNotModify(ori, format, [{
+            children: [{
+                children: []
+            }]
+        }, {
+            children: []
+        }, {
+            children: []
+        }], true);
+
+    });
+
 });
 
-function equalAndNotModify (data, format, expect) {
+function equalAndNotModify (data, format, expect, strict) {
     let clone = JSON.parse(JSON.stringify(data));
 
-    let result = dataFormat(data, format);
+    let result = strict ? dataFormat.strict(data, format) : dataFormat(data, format);
 
     assert.deepEqual(result, expect);
 

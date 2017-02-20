@@ -1,26 +1,28 @@
 'use strict';
 
-function dataFormat (data, format) {
+function dataFormat (data, format, strict) {
 
     if (!format) {
         return data;
     }
 
     if (Array.isArray(data) && Array.isArray(format)) {
-        return data.map((item, i) => dataFormat(item, format[0]));
+        return data.map((item, i) => dataFormat(item, format[0], strict));
     }
 
     if (isObject(data) && isObject(format)) {
 
         let obj = {};
 
-        for (let prop of Object.keys(data)) {
-            obj[prop] = dataFormat(data[prop], format[prop]);
+        if (!strict) {
+            for (let prop of Object.keys(data)) {
+                obj[prop] = dataFormat(data[prop], format[prop], strict);
+            }
         }
 
         for (let prop of Object.keys(format)) {
-            if (!data.hasOwnProperty(prop)) {
-                obj[prop] = dataFormat(data[prop], format[prop]);
+            if (!data.hasOwnProperty(prop) || strict) {
+                obj[prop] = dataFormat(data[prop], format[prop], strict);
             }
         }
 
@@ -66,4 +68,12 @@ function formatToData (format, currentData) {
     return currentData;
 }
 
-module.exports = dataFormat;
+function noStrictFormat (data, format) {
+    return dataFormat(data, format, false);
+}
+
+noStrictFormat.strict = function (data, format) {
+    return dataFormat(data, format, true);
+};
+
+module.exports = noStrictFormat;
