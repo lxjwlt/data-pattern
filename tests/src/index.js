@@ -353,6 +353,49 @@ describe('index.js', () => {
 
     });
 
+    it('empty format in strict mod', () => {
+        let ori = [{
+            level: 1,
+            shouldBeKeep: 'id1',
+            children: [{}]
+        }, {
+            level: 1,
+            shouldBeKeep: null,
+            children: null
+        }, null];
+
+        equalAndNotModify(ori, null, [{
+            level: 1,
+            shouldBeKeep: 'id1',
+            children: [{}]
+        }, {
+            level: 1,
+            shouldBeKeep: null,
+            children: null
+        }, null], true);
+
+    });
+
+    it('empty data in strict mod', () => {
+
+        let format = {
+            children: [],
+            map: [{}],
+            name: true,
+            info: (value) => {
+                assert.strictEqual(value, undefined);
+                return 1;
+            }
+        };
+
+        equalAndNotModify(null, format, {
+            children: [],
+            map: [],
+            info: 1
+        }, true);
+
+    });
+
 });
 
 function equalAndNotModify (data, format, expect, strict) {
