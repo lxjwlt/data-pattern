@@ -4,7 +4,7 @@
 
 Format data in the specific pattern we wanted.
 
-## why should we use?
+## why use data-pattern?
 
 The data we fetch from the server may not be what we expected. We need a simple way to unify the data format.
 
