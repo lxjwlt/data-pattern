@@ -17,7 +17,7 @@ ajax.get('/persons')
     });
 ```
 
-## Install
+## Installation
 
 ```
 npm install data-pattern
@@ -95,6 +95,25 @@ dataPattern(data, {
         }));
     }
 });
+```
+
+Use strict mod to filter properties:
+
+```javascript
+let data = {
+    name: 'lxjwlt',
+    map: {}
+};
+
+dataPattern.strict(data, {
+    name: true
+});
+
+/*
+{
+    name: 'lxjwlt'
+}
+*/
 ```
 
 A quick example:
