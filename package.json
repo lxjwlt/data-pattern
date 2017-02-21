@@ -1,6 +1,6 @@
 {
   "name": "data-pattern",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Format data in the specific pattern we wanted.",
   "main": "./src/index.js",
   "scripts": {
