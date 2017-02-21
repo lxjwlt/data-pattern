@@ -106,12 +106,14 @@ let data = {
 };
 
 dataPattern.strict(data, {
-    name: true
+    name: true,
+    list: []
 });
 
 /*
 {
-    name: 'lxjwlt'
+    name: 'lxjwlt',
+    list: []
 }
 */
 ```
