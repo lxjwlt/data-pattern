@@ -58,8 +58,8 @@ dataPattern(data, {
 Pattern can be a function which accepts current data as first arguments:
 
 ```javascript
-dataPattern(data, (item) => {
-    return item.sort((a, b) => b.item - a.item);
+dataPattern(data, (persons) => {
+    return persons.sort((a, b) => b.age - a.age);
 });
 ```
 
@@ -111,6 +111,7 @@ dataPattern.strict(data, {
 });
 
 /*
+=>
 {
     name: 'lxjwlt',
     list: []
@@ -146,6 +147,7 @@ let pattern = {
 dataPattern(data, pattern);
 
 /*
+=>
 {
     children: [
         {
